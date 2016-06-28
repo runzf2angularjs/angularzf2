@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+if (file_exists(__DIR__ . '/../../../../config/bootstrap.php')) {
+    require_once __DIR__ . '/../../../../config/bootstrap.php';
+} else if (file_exists(__DIR__ . '/../config/bootstrap.php')) {
+    require_once __DIR__ . '/../config/bootstrap.php';
+} else if (defined('APP_ROOT')) {
+    require_once APP_ROOT . '/config/bootstrap.php';
+} else if (getenv('APP_ROOT')) {
+    define('APP_ROOT', getenv('APP_ROOT'));
+    require_once APP_ROOT . '/config/bootstrap.php';
+} else {
+    die("[ERROR] APP_ROOT must be defined\n");
+}
+
+// App config
+$mainConfig = include APP_ROOT . '/config/app.php';
+
+// Mode CLI
+$mainConfig['cli'] = true;
+
+$application = new \Oft\Console\Application($mainConfig);
+$application->run();

@@ -1,0 +1,47 @@
+{
+    "name": "oft/admin",
+    "description": "IHM d'administration par défaut",
+    "license": "proprietary",
+    "type": "library",
+    "homepage": "http://portailphp.si.francetelecom.fr",
+    "keywords": ["OFT"],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packages-ccphp.si.francetelecom.fr/oft/"
+        },
+        {
+            "type": "composer",
+            "url": "http://packages-ccphp.si.francetelecom.fr/standard/"
+        },
+        {
+            "type": "composer",
+            "url": "http://packages-ccphp.si.francetelecom.fr/phpqa/"
+        },
+        {
+            "packagist": false
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "oft/fwk": "^2.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.5",
+        "mockery/mockery": "~0.9"
+    },
+    "authors": [
+        {
+            "name": "CC PHP",
+            "email": "cdc.php@orange.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Oft\\Admin\\": "src/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}

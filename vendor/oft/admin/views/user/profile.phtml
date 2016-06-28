@@ -1,0 +1,46 @@
+<h1><?= __('Profile') ?></h1>
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-4 text-right"><?= __('User') ?> :</div>
+            <div class="col-md-8"><?= e($identity->getDisplayName())?></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 text-right"><?= __('Username') ?> :</div>
+            <div class="col-md-8"><?= e($identity->getUsername()) ?></div>
+        </div>
+        <?php if ( $identity->__get('language') !== null) : ?>
+        <div class="row">
+            <div class="col-md-4 text-right"><?= __('Language') ?> :</div>
+            <div class="col-md-8"><?= e($identity->getLanguage()) ?></div>
+        </div>
+        <?php endif; ?>
+        <?php if ( $identity->__get('civility') !== null) : ?>
+        <div class="row">
+            <div class="col-md-4 text-right"><?= __('Civility') ?> :</div>
+            <div class="col-md-8"><?= e($civilities[$identity->__get('civility')]) ?></div>
+        </div>
+        <?php endif; ?>
+        <?php if ( $identity->__get('manager_username') !== null) : ?>
+        <div class="row">
+            <div class="col-md-4 text-right"><?= __('Manager Username') ?> :</div>
+            <div class="col-md-8"><?= e($identity->manager_username) ?></div>
+        </div>
+        <?php endif; ?>
+        <div class="row">
+            <div class="col-md-4 text-right"><?= __('Active') ?> :</div>
+            <div class="col-md-8"><?php echo $identity->isActive() ? __('Yes') : __('No'); ?></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 text-right"><?= __('Groups') ?> :</div>
+            <div class="col-md-8">
+                <?php foreach ($identity->getGroups() as $group => $groupName): ?> 
+                    <?php echo e($groupName) ?><br /> 
+                <?php endforeach ?> 
+            </div>
+        </div>
+    </div>
+</div>
+

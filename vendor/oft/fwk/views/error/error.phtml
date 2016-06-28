@@ -1,0 +1,19 @@
+<?php
+$this->title("Erreur à l'exécution");
+?>
+<h1>Erreur à l'exécution</h1>
+
+<div class="panel panel-danger">
+  <div class="panel-heading"><?=$this->type?></div>
+  <div class="panel-body"><?=$this->message?> </div>
+</div>
+
+<?php
+if($this->exception instanceof \Exception) {
+?>
+    <div class="panel panel-danger">
+      <div class="panel-heading">Trace</div>
+      <div class="panel-body"><pre><?=$this->exception->getTraceAsString()?></pre></div>
+    </div>
+<?php
+}

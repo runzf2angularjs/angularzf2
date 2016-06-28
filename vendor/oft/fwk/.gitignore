@@ -1,0 +1,12 @@
+/.settings
+/.buildpath
+/.project
+/nbproject
+/vendor
+/bin/doctrine*
+/bin/phinx*
+/bin/phpunit*
+/node_modules
+/build/
+/data/
+/composer.lock

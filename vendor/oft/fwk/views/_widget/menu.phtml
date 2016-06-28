@@ -1,0 +1,208 @@
+<nav id="menu-top" class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Afficher / masquer le menu</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="<?= $this->getBaseUrl() . '/' ?>">
+                <img src="<?= $this->assets()->file('oft/img/charte/logo.png') ?>" alt="Orange" />
+                &nbsp;<?= e($this->title()->getAppName()) ?>
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <?php
+
+            /**
+             * Retourne VRAI si la route définie sur l'item de menu correspond à la route courante
+             *
+             * @param array $item
+             * @param array $currentRoute
+             * @return boolean
+             */
+            function isActive($item, $currentRoute)
+            {
+                if (!count($item['route'])) {
+                    return false;
+                }
+
+                if (    $currentRoute['controller'] == $item['route']['controller']
+                    &&  $currentRoute['module'] == $item['route']['module']
+                    &&  $currentRoute['action'] == $item['route']['action']
+                ) {
+                    return true;
+                }
+
+                return false;
+            }
+
+            /**
+             * Retourne VRAI si l'item est du type donné
+             *
+             * @param array $item
+             * @param string $type
+             * @return bool
+             */
+            function isType($item, $type)
+            {
+                return isset($item['type']) && $item['type'] == $type;
+            }
+
+            /**
+             * Génération du code HTML d'un lien
+             *
+             * @param array $item
+             * @param array $replacements
+             * @return string
+             */
+            function handleLink($item, array $replacements)
+            {
+                $link = '';
+
+                // URL
+                $url = '#'; // A link must be created
+                if (!empty($item['url'])) { // Direct link
+                    $url = str_replace(
+                        array_keys($replacements),
+                        array_values($replacements),
+                        $item['url']
+                    );
+                }
+
+                // Name
+                $name = '';
+                if (!empty($item['name'])) {
+                    $name = str_replace(
+                        array_keys($replacements),
+                        array_values($replacements),
+                        $item['name']
+                    );
+                }
+
+                // Flag : avec ou sans lien autour du contenu
+                $hasLink = true;
+
+                // Type "text" sans lien
+                if (isType($item, 'text')) { // Text
+                    $hasLink = false;
+                    $content = '<p class="navbar-text">' . e(__($name)) . '</p>';
+                } else if (isType($item, 'button')) { // Button
+                    $content = '<button type="button" class="btn btn-default navbar-btn">' . e(__($name)) . '</button>';
+                } else if (isType($item, 'image')) {
+                    $content = $name;
+                } else { // Link
+                    $content = e(__($name));
+                }
+
+                // Link anchor
+                $startLink = '';
+                $endLink = '';
+                if ($hasLink) {
+                    // Starting anchor
+                    $startLink = '<a href="' . $url . '"';
+                    if (!empty($item['target'])) {
+                        $startLink .= ' target="' . $item['target'] . '"';
+                    }
+                    if (count($item['submenu'])) {
+                        $startLink .= ' class="dropdown-toggle" data-toggle="dropdown"';
+                    }
+                    $startLink .= '>';
+
+                    // Ending anchor
+                    if (count($item['submenu'])) {
+                        $endLink .= ' <span class="caret"></span>';
+                    }
+                    $endLink .= '</a>';
+                }
+
+                return $startLink . $content . $endLink;
+            }
+
+            /**
+             * Génération du code HTML d'un sous-menu
+             *
+             * @param array $item
+             * @param array $replacements
+             * @param array $currentRoute
+             * @return string
+             */
+            function handleSubMenu($item, $replacements, $currentRoute)
+            {
+                if (!isset($item['submenu']) || !count($item['submenu'])) {
+                    return '';
+                }
+
+                $subMenuContent = '<ul class="dropdown-menu" role="menu">' . "\n";
+                
+                foreach ($item['submenu'] as $subItem) {
+                    // Header
+                    if (isType($subItem, 'header')) {
+                        $subMenuContent .=
+                            '<li role="presentation" class="dropdown-header" aria-labelledby="' . e($subItem['name']) . '">' . "\n" .
+                                e($subItem['name']) .
+                            '</li>' . "\n";
+                        continue;
+                    }
+
+                    // Séparateur
+                    if (isType($subItem, 'separator')) {
+                        $subMenuContent .= '<li class="divider"></li>' . "\n";
+                        continue;
+                    }
+                    
+                    // Classes
+                    $attr = '';
+                    $class = '';
+                    if (isActive($subItem, $currentRoute)) {
+                        $class .= 'active ';
+                    }
+                    if (isType($subItem, 'disabled')) {
+                        $class .= 'disabled ';
+                    }
+                    if (!empty($class)) {
+                        $attr = ' class="' . $class . '" ';
+                    }
+
+                    // Item de menu
+                    $subMenuContent .=
+                        '<li' . $attr . '>' . "\n" .
+                            handleLink($subItem, $replacements) . "\n" .
+                        '</li>' . "\n";
+                }
+
+                $subMenuContent .= "</ul>\n";
+
+                return $subMenuContent;
+            }
+
+            // Affichage
+            foreach ($items as $name => $item) {
+                // Classes - <ul>
+                $ulClass = 'nav navbar-nav';
+                if (isset($item['align'])) {
+                    $ulClass .= ' navbar-' . $item['align'];
+                }
+
+                // Classes - <li>
+                $liClass = 'dropdown';
+                if (isActive($item, $currentRoute)) {
+                    $liClass .= ' active';
+                }
+                if (isType($item, 'disabled')) {
+                    $liClass .= ' disabled';
+                }
+
+                echo
+                    '<ul class="' . $ulClass . '">' . "\n" .
+                        '<li class="' . $liClass . '">' . "\n" .
+                            handleLink($item, $replacements) . "\n" .
+                            handleSubMenu($item, $replacements, $currentRoute) .
+                        '</li>' . "\n" .
+                    '</ul>' . "\n";
+            }
+            ?>
+        </div>
+    </div>
+</nav>

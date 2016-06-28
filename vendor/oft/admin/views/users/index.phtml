@@ -1,0 +1,69 @@
+<?php
+$this->assets('autocomplete');
+$active = (!$this->search) ? ' style="display:none;" ' : '';
+?>
+<h1><?= __('User List')?></h1>
+
+<div class="panel panel-default">
+    <div class="panel-heading" style="cursor: pointer;" onclick="$('#panel-body-search-user').toggle();">
+        <h3 class="panel-title"><?= __('Search')?></h3>
+    </div>
+    <div id="panel-body-search-user" class="panel-body" <?=$active?>>
+        <?=$this->smartForm($form)?>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-condensed">
+        <thead>
+            <tr>
+                <th width="15%"><?= __('Username')?></th>
+                <th width="15%"><?= __('First name')?></th>
+                <th width="15%"><?= __('Surname')?></th>
+                <th width="20%"><?= __('Mail')?></th>
+                <th><?= __('Entity')?></th>
+                <th style="width: 100px;"><?= __('Actions')?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($this->paginator as $user) : ?>
+            <tr>
+                <td>
+                    <?php if ($this->access['view']) : ?>
+                    <a href="<?=$this->smartUrlFromRoute('users.view', array('id' => $user->id_user))?>">
+                        <?=e($user->username)?>
+                    </a>
+                    <?php else : ?>
+                    <?=e($user->username)?>
+                    <?php endif; ?>
+                </td>
+                <td><?=e($user->givenname)?></td>
+                <td><?=e($user->surname)?></td>
+                <td><?=e($user->mail)?></td>
+                <td><?=e($user->entity)?></td>
+                <td>
+                    <?php if ($this->access['edit']) : ?>
+                    <a href="<?=$this->smartUrlFromRoute('users.edit', array('id' => $user->id_user))?>" class="btn glyphicon glyphicon-cog"></a>
+                    <?php endif; ?>
+                    <?php if ($this->access['delete']) : ?>
+                    <a href="<?=$this->smartUrlFromRoute('users.delete', array('id' => $user->id_user))?>" class="btn glyphicon glyphicon-trash"></a>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+<?= $this->paginationControl(
+    $this->paginator,
+    'Sliding',
+    'oft/partials/sliding',
+    array('url' => $this->smartUrlFromRoute('users.list'))
+); ?>
+
+<div class="text-right">
+    <?php if ($this->access['create']) : ?>
+    <a href="<?=$this->smartUrlFromRoute('users.create')?>" class="btn btn-primary"><?= __('Create')?></a>
+    <?php endif; ?>
+</div>

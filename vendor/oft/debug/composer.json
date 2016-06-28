@@ -1,0 +1,49 @@
+{
+    "name": "oft/debug",
+    "description": "Debug bar",
+    "keywords": ["OFT", "Debug"],
+    "license": "proprietary",
+    "type": "library",
+    "homepage": "http://portailphp.si.francetelecom.fr",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packages-ccphp.si.francetelecom.fr/oft/"
+        },
+        {
+            "type": "composer",
+            "url": "http://packages-ccphp.si.francetelecom.fr/standard/"
+        },
+        {
+            "type": "composer",
+            "url": "http://packages-ccphp.si.francetelecom.fr/phpqa/"
+        },
+        {
+            "packagist": false
+        }
+    ],
+    "authors": [
+        {
+            "name": "CC PHP",
+            "email": "cdc.php@orange.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "maximebf/debugbar": "~1",
+        "oft/fwk": "^2.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.5",
+        "mockery/mockery": "~0.9",
+        "beelab/bowerphp": "~0.1@alpha"
+    },
+    "autoload": {
+        "psr-4": {
+            "Oft\\Debug\\": "src/"
+        }
+    }
+}

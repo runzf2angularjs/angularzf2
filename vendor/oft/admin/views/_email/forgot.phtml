@@ -1,0 +1,42 @@
+<table style="font:10pt Arial;color:#333;" width="650">
+    <tbody>
+        <tr>
+            <td>
+                <table width="650" border="0" cellspacing="10" cellpadding="0">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p style="font:bold 20pt Arial;color:#f50;"><?= e(__($appName)) ?></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="margin:25px;padding:15px;border:1px solid #ccc;">
+                    <p>
+                        <?= __('Hello') ?>,
+                    </p>
+                    <p>
+                        <?= __('Resetting your password has been requested on the application') ?> <b><?= e(__($appName)) ?></b>
+                    </p>
+                    <p>
+                        <?= __('To complete the reset, follow the link below (or copy and paste into your browser)') ?> :<br>
+                        <a href="<?= $this->serverUrl() . $this->smartUrlFromRoute('user.reset', $params) ?>">
+                            <?= $this->serverUrl() . $this->smartUrlFromRoute('user.reset', $params) ?>
+                        </a>
+                    </p>
+                    <p>
+                        <?= __('Without action, your password will remain unchanged.') ?>
+                    </p>
+                </div>
+                <p>
+                    <?= __('This is an automatically generated email, please do not reply') ?><br />
+                    <a href="<?= $this->serverUrl() . $this->smartUrlFromRoute('default') ?>"><?= e(__($appName)) ?></a>
+                </p>
+            </td>
+        </tr>
+    </tbody>
+</table>

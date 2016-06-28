@@ -1,0 +1,77 @@
+<?php if ($this->pageCount && $this->pageCount > 1): ?>
+
+    <?php
+    if (strpos($this->url, "?") === false) {
+        $operator = '?';
+    } else {
+        $operator = '&';
+    }
+
+    ?>
+
+    <ul class="pagination">
+        <?php if (isset($this->previous)): ?>
+            <li>
+                <a aria-label="<?= __('First') ?>" href="<?php echo $this->url . $operator . 'page=1'; ?>">
+                    <span class="glyphicon glyphicon-fast-backward small"></span> <span class="hidden-xs"><?= __('First') ?></span></span>
+                </a>
+            </li>
+        <?php else: ?>
+            <li class="disabled">
+                <span><span class="glyphicon glyphicon-fast-backward small"></span> <span class="hidden-xs"><?= __('First') ?></span></span>
+            </li>
+        <?php endif; ?>
+        
+        <?php if (isset($this->previous)): ?>
+            <li>
+                <a aria-label="<?= __('Previous') ?>" class="hidden-sm hidden-md hidden-lg" href="<?php echo $this->url . $operator . 'page=' . $this->previous; ?>">
+                    <span class="glyphicon glyphicon-backward small"></span>
+                </a>
+                <a aria-label="<?= __('Previous') ?>" class="hidden-xs" href="<?php echo $this->url . $operator . 'page=' . $this->previous; ?>">
+                    <span class="glyphicon glyphicon-backward small"></span> <?= __('Previous') ?>
+                </a>
+            </li>
+        <?php else: ?>
+            <li class="disabled">
+                <span class="hidden-sm hidden-md hidden-lg"><span class="glyphicon glyphicon-backward small"></span></span>
+                <span class="hidden-xs"><span class="glyphicon glyphicon-backward small"></span> <?= __('Previous') ?></span>
+            </li>
+        <?php endif; ?>
+
+        <!-- Numbered page links -->
+        <?php foreach ($this->pagesInRange as $page): ?>
+            <?php if ($page != $this->current): ?>
+                <li class="hidden-xs"><a href="<?php echo $this->url . $operator . 'page=' . $page; ?>"><?php echo $page; ?></a></li>
+            <?php else: ?>
+                <li><span class="btn-primary active"><?php echo $page; ?></span></li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+
+        <!-- Next page link -->
+        
+        <?php if (isset($this->next)): ?>
+            <li>
+                <a aria-label="<?= __('Next') ?>" class="hidden-sm hidden-md hidden-lg" href="<?php echo $this->url . $operator . 'page=' . $this->next; ?>"> <span class="glyphicon glyphicon-forward small"></span></a>
+                <a aria-label="<?= __('Next') ?>" class="hidden-xs" href="<?php echo $this->url . $operator . 'page=' . $this->next; ?>"><?= __('Next') ?> <span class="glyphicon glyphicon-forward small"></span></a>
+            </li>
+        <?php else: ?>
+            <li class="disabled">
+                <span class="hidden-sm hidden-md hidden-lg"><span class="glyphicon glyphicon-forward small"></span></span>
+                <span class="hidden-xs"><?= __('Next') ?> <span class="glyphicon glyphicon-forward small"></span></span>
+            </li>
+        <?php endif; ?>
+
+
+
+        <?php if (isset($this->next)): ?>
+            <li>
+                <a aria-label="<?= __('Last') ?>" href="<?php echo $this->url . $operator . 'page=' . $this->pageCount; ?>"><span class="hidden-xs"><?= __('Last') ?></span> <span class="glyphicon glyphicon-fast-forward small"></span></a>
+            </li>
+        <?php else: ?>
+            <li class="disabled">
+                <span><span class="hidden-xs"><?= __('Last') ?></span> <span class="glyphicon glyphicon-fast-forward small"></span></span>
+            </li>
+        <?php endif; ?>
+        
+    </ul>
+<?php endif; ?>

@@ -1,0 +1,22 @@
+<?php if ($this->create) :
+    $option = array('legend' => __('Create Group'));
+endif; ?>
+<?php if ($this->edit) :
+    $option = array('legend' => __('Edit Group'));
+endif; ?>
+<?php if ($this->view) :
+    $option = array('legend' => __('View Group'));
+endif; 
+echo $this->smartForm($form, $option);
+
+echo '<div class="form-group pull-right">';
+
+if($this->view && $this->access['edit']) :
+    echo ' <a class="btn btn-primary" role="button" '
+    . 'href="'.$this->smartUrlFromRoute('groups.edit', array('id' => $form->get('id_acl_role')->getValue())).'">'.__('Modify').'</a>';
+endif;
+    
+echo ' <a class="btn btn-default" role="button" href="'.$this->smartUrlFromRoute('groups.list').'">'.__('Back').'</a>'.
+    '</div>';
+?>
+</form>

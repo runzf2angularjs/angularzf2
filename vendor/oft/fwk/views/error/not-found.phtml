@@ -1,0 +1,32 @@
+<?php
+$this->title('404 Not Found');
+?>
+<br />
+<div class="jumbotron">
+<h1>404 Not Found</h1>
+
+<p><?=__('Page not found')?></p>
+
+</div>
+
+<p class="text-center"><a class="btn btn-large btn-default" href="<?=$this->getBaseUrl()?>" role="button"><?=__('Back')?></a></p>
+
+<?php
+if ($isDebug) {
+    if (!empty($this->route)) {
+?>
+<div class="panel panel-danger">
+    <div class="panel-heading">Route</div>
+    <div class="panel-body"><?php \Oft\Util\Debug::dump($this->route); ?></div>
+</div>
+<?php
+    }
+    if (!empty($this->routeParams)) {
+?>
+<div class="panel panel-danger">
+    <div class="panel-heading">Paramètres de la route</div>
+    <div class="panel-body"><?php \Oft\Util\Debug::dump($this->routeParams); ?></div>
+</div>
+<?php
+    }
+}

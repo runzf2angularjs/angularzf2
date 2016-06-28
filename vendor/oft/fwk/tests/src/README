@@ -1,0 +1,17 @@
+Ne JAMAIS mocker :
+    - Oft\Auth\Identity
+    - Zend\ServiceManager\ServiceManager
+    - Oft\Mvc\Application
+
+Snippets utiles :
+
+    $identity = new \Oft\Auth\Identity(array('username' => 'test'));
+
+    $app = new \Oft\Mvc\Application();
+    $app->serviceLocator->setService('IdentityContext', new \Oft\Test\Mock\IdentityContext($identity));
+    $app->serviceLocator->setService('HttpContext', new \Oft\Test\Mock\HttpContext());
+    $app->serviceLocator->setService('RouteContext', new \Oft\Mvc\Context\RouteContext());
+    $app->httpRequest
+        ->shouldReceive('...')
+        ...
+        ->andReturn('/');
